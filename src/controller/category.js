@@ -47,6 +47,7 @@ exports.addCategory = (req , res) => {
     })
 }
 
+
 exports.getCategories = (req , res) => {
 
     Category.find({})
