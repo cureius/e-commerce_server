@@ -32,6 +32,10 @@ mongoose.connect(
 app.use(cors());
 app.use(express.json());
 app.use('/public', express.static(path.join(__dirname, 'uploads')));
+
+app.get('/', (req, res) => {
+  res.send('E-commerce Server');
+});
 app.use('/api', userRoutes);
 app.use('/api', adminRoutes);
 app.use('/api', categoryRoutes);
