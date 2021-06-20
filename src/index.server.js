@@ -4,6 +4,7 @@ const env = require('dotenv')
 const mongoose = require('mongoose')
 const path = require('path')
 const cors = require('cors')
+const morgan = require('morgan')
 
 // routes
 const userRoutes = require('./routes/auth')
@@ -32,7 +33,26 @@ mongoose.connect(
 app.use(cors());
 app.use(express.json());
 app.use('/public', express.static(path.join(__dirname, 'uploads')));
+const myStream = {
+  write: (text) => {
+    console.info('Response Details', JSON.parse(text));
+  },
+};
 
+const morganToken = {
+  date: ':date[iso]',
+  url: ':url',
+  httpVersion: ':http-version',
+  method: ':method',
+  remoteAddr: ':remote-addr',
+  remoteUser: ':remote-user',
+  resTime: ':response-time[6]',
+  resStatus: ':status',
+  userAgent: ':user-agent',
+  logger: 'morgan',
+};
+
+app.use(morgan(JSON.stringify(morganToken), { stream: myStream }));
 app.get('/', (req, res) => {
   res.send('E-commerce Server');
 });
