@@ -71,3 +71,10 @@ exports.adminMiddleware = (req, res, next) => {
     }
     next();
 }
+
+exports.superAdminMiddleware = (req, res, next) => {
+    if (req.user.role !== "super-admin") {
+        return res.status(200).json({ message: "Super Admin access denied" });
+    }
+    next();
+};

@@ -1,7 +1,9 @@
 const express = require('express')
 const { signup, signin, signout } = require('../../controller/admin/auth')
 const { validateSigninRequest, validateSignupRequest, isRequestValidated } = require('../../validator/auth')
+const { requireSignin } = require('../../middleware');
 const router = express.Router()
+
 
 router.post('/admin/signup',validateSignupRequest, isRequestValidated, signup)
 router.post('/admin/signin',validateSigninRequest, isRequestValidated, signin)
