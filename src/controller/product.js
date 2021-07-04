@@ -120,6 +120,6 @@ exports.getProducts = async (req, res) => {
         .populate({ path: "category", select: "_id name" })
         .exec();
 
-    res.status(200).json({ products });
+    res.status(200).json( products );
 };
 
