@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const env = require('dotenv')
+// const env = require('dotenv')
 const mongoose = require('mongoose')
 const path = require('path')
 const cors = require('cors')
@@ -18,7 +18,7 @@ const addressRoutes = require("./routes/address");
 const orderRoutes = require("./routes/order");
 const adminOrderRoute = require("./routes/admin/order.routes");
 // environment variable
-env.config()
+// env.config()
 const port = process.env.PORT
 
 // mongodb connection
