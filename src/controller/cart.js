@@ -91,6 +91,17 @@ exports.getCartItems = (req, res) => {
   //}
 };
 
+exports.getCartProducts = (req, res) => {
+  Cart.findOne({ user: req.user._id })
+    .populate("cartItems.product", "_id name price productPictures")
+    .exec((error, cart) => {
+      if (error) return res.status(400).json({ error });
+      if (cart) {
+        res.status(200).json(cart);
+      }
+    });
+};
+
 // new update remove cart items
 exports.removeCartItems = (req, res) => {
   const { productId } = req.body.payload;
