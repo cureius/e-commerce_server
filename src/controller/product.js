@@ -2,18 +2,28 @@ const Product = require('../models/product')
 const shortid = require('shortid')
 const slugify = require('slugify')
 const Category = require("../models/category");
+const fs = require("fs");
+const path = require("path");
+
+path.join(__dirname , '../uploads/' , "TEST")
 
 exports.createProduct = (req, res) => {
-    // res.status(200).json({file: req.files, body: req.body})
 
     const { name, price, description, category, createdBy, quantity } = req.body
     let productPictures = []
 
     if (req.files.length > 0) {
         productPictures = req.files.map(file => {
-            return { img: file.filename }
+            const contentTypeIndex = file.filename.lastIndexOf('.');
+            console.log(file);
+            return { 
+                data: fs.readFileSync(path.join(__dirname , '../uploads/' , file.filename)),
+                contentType: contentTypeIndex < 0 ? "": `image/${file.filename.substr(contentTypeIndex+1)}`
+            }
         })
     }
+    console.log(productPictures);
+    // return res.status(200).json({file: req.files, body: req.body});
 
     const product = new Product({
         name: name,
@@ -29,6 +39,7 @@ exports.createProduct = (req, res) => {
     product.save((error, product) => {
         if (error) { return res.status(400).json({ error }) }
         if (product) {
+            console.log(product);
             res.status(200).json({ product })
         }
     })
